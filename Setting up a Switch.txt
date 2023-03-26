@@ -1,0 +1,116 @@
+Show Commands
+Switch(config)# show running-configure
+Switch(config)# show ip interface brief
+Switch(config)# show ipv6 interface brief
+Switch(config)# show version
+Switch(config)# show flash
+Switch(config)# show ip arp
+Switch(config)# show vlan brief
+Switch(config)# show interfaces trunk
+Switch(config)# show interfaces status
+
+
+Save Running Config
+Switch# copy running-config startup-config
+
+Erase Startup Config
+Switch(config)# delete vlan.dat
+Switch(config)# erase startup-config
+Switch(config)# reload
+
+Basic Setup Commands
+Switch(config)# hostname Switch
+Switch(config)# no ip domain-lookup
+Switch(config)# enable secret password
+Switch(config)# banner motd #Unauthorized access prohibited!#
+Switch(config)# clock set 17:00:00 18 Feb 2013
+
+Console
+Switch(config)# line console 0
+Switch(config)# password cisco
+Switch(config)#exec-timeout 5 0
+Switch(config)# login
+Switch(config)# logging synchronous
+
+VTY
+Switch(config)# line vty 0 4
+Switch(config-line)# password cisco
+Switch(config-line)# exec-timeout 5 0
+Switch(config-line)# transport input ssh
+Switch(config-line)# login local
+Switch(config-line)# logging synchronous
+
+Encrypt Passwords
+Switch(config)# service password-encryption
+
+IPv4
+Switch(config)# interface vlan1
+Switch(config)# ip address 192.168.0.1 255.255.255.0
+Switch(config)# description ## to SW1 ##
+Switch(config)# no shutdown
+Switch(config)# ip default-gateway 192.168.0.2
+
+IPv6
+IPv6
+Switch(config)# interface g0/0
+Switch(config-if)# ipv6 address 2001:db8:acad:a::1/64
+Switch(config-if)# ipv6 address fe80::1 link-local (optional)
+Switch(config-if)# no shutdown
+
+SSH
+Switch(config)# ip domain name myDomain
+Switch(config)# crypto key generate rsa
+Switch(config)# ip ssh version 2
+Switch(config)# ip ssh time-out 60
+Switch(config)# username myusername privelege 15 secret mypassword
+
+DNS Lookup
+Switch(config)# ip domain-lookup
+Switch(config)# ip name-server <DNS server IP address>
+Switch(config)# ip domain-name myDomain.com
+
+DNS Server
+Name - hostname.domainName
+Type - A Record
+Address - 192.168.1.2
+
+VLAN
+Switch(config)# show vlan brief
+Switch(config)# interface range g0/1,f3/1-f4/1 (f0/2 - 3)
+Switch(config)# switchport mode access
+Switch(config)# switchport access vlan 10
+
+Configure VLAN
+Switch(config)# vlan 10
+Switch(config)# name SALES
+
+Trunk
+Switch(config)# interface g0/0
+Switch(config)# switchport mode trunk
+Switch(config)# switchport trunk encapsulation dot1q (optional)
+Switch(config)# switchport trunk allowed vlan 10,30 (create vlan ? if required check
+	trunk output for vlans allowed and active)
+Switch(config)# switchport trunk native vlan 1001
+Switch(config)# show interfaces trunk
+
+Inter VLAN Routing via SVI
+(Reset Trunk Routing if Configured)
+Switch(config)# default interface g0/1
+Setup Routing
+Switch(config)# ip routing
+Switch(config)# interface g0/1
+Switch(config)# no switchport
+Switch(config)# ip address <IP ADDRESS> <NETMASK>
+Switch(config)# show interfaces status
+SVI Configuration
+Switch(config)# interface vlan10 (Must Exist on the Switch)
+Switch(config)# ip address <IP ADDRESS> <NETMASK>
+Switch(config)# no shutdown
+
+Default Route (PC's default gateway will need to be the switch not router)
+Switch(config)# ip route 0.0.0.0 0.0.0.0 <ROUTER>
+
+
+MAC Address
+Switch(config)# show mac address-table
+Switch(config)# clear mac address-table dynamic 
